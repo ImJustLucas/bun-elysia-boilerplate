@@ -1,27 +1,50 @@
 import { t } from "elysia";
 
 import { createElysia } from "@utils/createElysia";
+import { IPokemon } from "@typesDef/pokemon";
+import { APIResponse } from "@typesDef/api";
 
-import { IPokemonServices, PokemonServices } from "./pokemon.services";
+import { PokemonDocumentServices, PokemonServices } from "./pokemon.services";
 
-const _pokemonServices: IPokemonServices = new PokemonServices();
+const _pokemonServices: PokemonDocumentServices = new PokemonServices();
 
 export const PokemonController = createElysia({ prefix: "/pokemon" })
-  .get("/", async () => _pokemonServices.getAll())
+  .get("/", async (): Promise<APIResponse<IPokemon[]>> => {
+    const pokemons = await _pokemonServices.getAll();
 
-  .get("/:id", async ({ params: { id } }) => _pokemonServices.get(id))
+    return {
+      success: true,
+      data: pokemons,
+    };
+  })
+
+  .get("/:id", async ({ params: { id } }): Promise<APIResponse<IPokemon>> => {
+    if (!id) throw new Error("Id is required");
+
+    const pokemon = await _pokemonServices.get(id);
+
+    return {
+      success: true,
+      data: pokemon,
+    };
+  })
 
   .post(
     "/",
-    async ({ body }) => {
+    async ({ body }): Promise<APIResponse<IPokemon>> => {
       const { name, type, description, level } = body;
 
-      return await _pokemonServices.create({
+      const newPokemon = await _pokemonServices.create({
         name,
         type,
         description,
         level,
       });
+
+      return {
+        success: true,
+        data: newPokemon,
+      };
     },
     {
       body: t.Object({
@@ -35,10 +58,15 @@ export const PokemonController = createElysia({ prefix: "/pokemon" })
 
   .put(
     "/:id",
-    ({ params: { id }, body }) => {
+    async ({ params: { id }, body }): Promise<APIResponse<IPokemon>> => {
       if (!id) throw new Error("Id is required");
 
-      return _pokemonServices.update(id, body);
+      const updatedPokemon = await _pokemonServices.update(id, body);
+
+      return {
+        success: true,
+        data: updatedPokemon,
+      };
     },
     {
       body: t.Object({
@@ -50,4 +78,14 @@ export const PokemonController = createElysia({ prefix: "/pokemon" })
     }
   )
 
-  .delete("/:id", async ({ params: { id } }) => _pokemonServices.delete(id));
+  .delete(
+    "/:id",
+    async ({ params: { id } }): Promise<APIResponse<IPokemon>> => {
+      const deletedPokemon = await _pokemonServices.delete(id);
+
+      return {
+        success: true,
+        data: deletedPokemon,
+      };
+    }
+  );

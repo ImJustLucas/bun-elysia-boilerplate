@@ -1,19 +1,16 @@
-import Pokemon from "./pokemon.schema";
+import Pokemon, { PokemonDocument } from "./pokemon.schema";
 
 import { PokemonDTO } from "@typesDef/pokemon";
 
 export class PokemonServices {
-  async get(id: string) {
-    console.log(`@GET /pokemon/${id}`);
-
+  async get(id: string): Promise<PokemonDocument> {
     const pokemon = await Pokemon.findById(id);
-
     if (!pokemon) throw new Error(`Pokemon not found with id ${id}`);
 
     return pokemon;
   }
 
-  async getAll() {
+  async getAll(): Promise<PokemonDocument[]> {
     console.log("@GET /pokemon");
 
     const pokemons = await Pokemon.find();
@@ -21,7 +18,7 @@ export class PokemonServices {
     return pokemons;
   }
 
-  async create(data: PokemonDTO) {
+  async create(data: PokemonDTO): Promise<PokemonDocument> {
     console.log("@POST: /pokemon", data);
 
     const newPokemon = new Pokemon(data);
@@ -35,7 +32,10 @@ export class PokemonServices {
     return returnedPokemon;
   }
 
-  async update(id: string, data: Partial<PokemonDTO>) {
+  async update(
+    id: string,
+    data: Partial<PokemonDTO>
+  ): Promise<PokemonDocument> {
     console.log("@PUT: /pokemon");
 
     const updatePokemon = await Pokemon.findById(id);
@@ -54,7 +54,7 @@ export class PokemonServices {
     return returnedPokemon;
   }
 
-  async delete(id: string) {
+  async delete(id: string): Promise<PokemonDocument> {
     console.log("@DELETE: /pokemon");
 
     const deletedPokemon = await Pokemon.findByIdAndDelete(id);
@@ -65,4 +65,4 @@ export class PokemonServices {
   }
 }
 
-export type IPokemonServices = PokemonServices;
+export type PokemonDocumentServices = PokemonServices;

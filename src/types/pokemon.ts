@@ -1,6 +1,4 @@
-import { Document } from "mongoose";
-
-export interface IPokemon extends Document {
+export interface IPokemon {
   name: string;
   type: string;
   description: string;

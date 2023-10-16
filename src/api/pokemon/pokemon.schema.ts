@@ -1,8 +1,10 @@
 import { IPokemon } from "@typesDef/pokemon";
 
-import { Schema, model } from "mongoose";
+import { Document, Schema, model } from "mongoose";
 
-const schema = new Schema<IPokemon>(
+export type PokemonDocument = IPokemon & Document;
+
+const schema = new Schema<PokemonDocument>(
   {
     name: {
       type: String,
@@ -40,4 +42,4 @@ schema.pre("save", function (next) {
   next();
 });
 
-export default model<IPokemon>("pokemon", schema);
+export default model<PokemonDocument>("pokemon", schema);
