@@ -1,10 +1,14 @@
 import { Elysia } from "elysia";
 
-import "@api/config/database/mongodb.config";
-import { api } from "@api/index";
+import "@config/database/mongodb.config";
+import { auth } from "./auth/auth.controller";
+import { PokemonController } from "@api/pokemon/pokemon.controller";
 
-const app = new Elysia().use(api).listen(8080);
+const api = new Elysia().listen(process.env.PORT || 8080);
+
+api.use(auth);
+api.use(PokemonController);
 
 console.log(
-  `🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`
+  `🦊 Elysia is running at ${api.server?.hostname}:${process.env.PORT || 8080}`
 );

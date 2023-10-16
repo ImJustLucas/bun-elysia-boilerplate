@@ -31,7 +31,8 @@
     // "baseUrl": "./",                                  /* Specify the base directory to resolve non-relative module names. */
     "paths": {
       "@api/*": ["./src/api/*"],
-      "@components/*": ["./src/components/*"],
+      "@config/*": ["./src/config/*"],
+      "@constants/*": ["./src/constants/*"],
       "@utils/*": ["./src/utils/*"],
       "@typesDef/*": ["./src/types/*"]
     } /* Specify a set of entries that re-map imports to additional lookup locations. */,
