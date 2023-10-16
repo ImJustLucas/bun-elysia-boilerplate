@@ -48,4 +48,6 @@ export const PokemonController = createElysia({ prefix: "/pokemon" })
         level: t.Optional(t.Number()),
       }),
     }
-  );
+  )
+
+  .delete("/:id", async ({ params: { id } }) => _pokemonServices.delete(id));
