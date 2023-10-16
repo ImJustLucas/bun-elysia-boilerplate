@@ -1,7 +1,7 @@
 import { Elysia } from "elysia";
 
 import "@config/database/mongodb.config";
-import { auth } from "./auth/auth.controller";
+import { auth } from "@auth/auth.controller";
 import { apiRoutes } from "@api/index";
 
 const api = new Elysia().listen(process.env.PORT || 8080);
