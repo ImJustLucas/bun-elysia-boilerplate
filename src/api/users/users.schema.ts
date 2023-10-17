@@ -4,7 +4,6 @@ import {
   UserAccountStatusType,
   UserRole,
 } from "@typesDef/globals";
-import * as bcrypt from "bcrypt";
 import { HydratedDocument, Schema, model } from "mongoose";
 
 const SALT_ROUNDS = 12;
@@ -54,14 +53,13 @@ const UserIdentitySchema = new Schema(
   }
 );
 
-console.log(Object.values(Language));
-
 const UserPreferencesSchema = new Schema(
   {
     language: {
       type: String,
       required: true,
-      enum: Object.values(Language),
+      enum: Object.keys(Language),
+      default: Language.FR,
     },
     currency: {
       type: String,
@@ -141,7 +139,9 @@ const UserSchema = new Schema<UserDocument>(
     },
     role: {
       type: Number,
-      enum: Object.values(UserRole),
+      enum: Object.values(UserRole).filter(
+        (value) => typeof value === "number"
+      ),
       default: UserRole.USER,
     },
     identity: UserIdentitySchema,
@@ -152,25 +152,27 @@ const UserSchema = new Schema<UserDocument>(
     timestamps: true,
     toJSON: { transform: transformValue },
     toObject: { transform: transformValue },
+
+    methods: {
+      async getEncryptedPassword(password: string) {
+        return await Bun.password.hash(password, {
+          algorithm: "bcrypt",
+          cost: SALT_ROUNDS,
+        });
+      },
+
+      async compareEncryptedPassword(password: string) {
+        return await Bun.password.verify(password, this.password);
+      },
+    },
   }
 );
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function transformValue(_: unknown, ret: { [key: string]: any }) {
   delete ret.password;
+  delete ret.__v;
 }
-
-export default model<UserDocument>("user", UserSchema);
-
-UserSchema.methods.getEncryptedPassword = (
-  password: string
-): Promise<string> => {
-  return bcrypt.hash(String(password), SALT_ROUNDS);
-};
-
-UserSchema.methods.compareEncryptedPassword = function (password: string) {
-  return bcrypt.compare(password, this.password);
-};
 
 UserSchema.pre("save", async function (next) {
   if (this.isModified("password")) {
@@ -186,3 +188,5 @@ UserSchema.pre("updateOne", function (next) {
   this.set({ updatedAt: new Date() });
   next();
 });
+
+export default model<UserDocument>("user", UserSchema);

@@ -1,7 +1,7 @@
 import { Language, Currency } from "./globals";
 
 export interface IUser {
-  id: string;
+  _id: string;
   username: string;
   email: string;
   password: string;
