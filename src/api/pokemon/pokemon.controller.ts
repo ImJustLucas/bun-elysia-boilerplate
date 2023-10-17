@@ -19,6 +19,7 @@ export const PokemonController = createElysia({ prefix: "/pokemon" })
   })
 
   .get("/:id", async ({ params: { id } }): Promise<APIResponse<IPokemon>> => {
+    console.log("@GET /pokemon/:id", id);
     if (!id) throw new Error("Id is required");
 
     const pokemon = await _pokemonServices.get(id);
