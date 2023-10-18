@@ -1,92 +1,88 @@
-import { t } from "elysia";
+import Elysia, { t } from "elysia";
 
-import { createElysia } from "@utils/createElysia";
 import { IPokemon } from "@typesDef/pokemon";
 import { APIResponse } from "@typesDef/api";
 
 import { PokemonDocumentServices, PokemonServices } from "./pokemon.services";
+import { isAuthenticated } from "@auth/guards/authenticated.guard";
 
 const _pokemonServices: PokemonDocumentServices = new PokemonServices();
 
-export const PokemonController = createElysia({ prefix: "/pokemon" })
-  .get("/", async (): Promise<APIResponse<IPokemon[]>> => {
-    const pokemons = await _pokemonServices.getAll();
+export const PokemonController = new Elysia({ prefix: "/pokemon" }).guard(
+  {
+    beforeHandle: [isAuthenticated],
+  },
+  (app) =>
+    app
+      .decorate("getDate", () => Date.now())
+      .get("/", async ({ getDate }): Promise<APIResponse<IPokemon[]>> => {
+        console.log("@GET /pokemon");
+        const pokemons = await _pokemonServices.getAll();
 
-    return {
-      success: true,
-      data: pokemons,
-    };
-  })
+        return {
+          success: true,
+          data: pokemons,
+        };
+      })
 
-  .get("/:id", async ({ params: { id } }): Promise<APIResponse<IPokemon>> => {
-    console.log("@GET /pokemon/:id", id);
-    if (!id) throw new Error("Id is required");
+      .post(
+        "/",
+        async ({ body }): Promise<APIResponse<IPokemon>> => {
+          const { name, type, description, level } = body;
 
-    const pokemon = await _pokemonServices.get(id);
+          const newPokemon = await _pokemonServices.create({
+            name,
+            type,
+            description,
+            level,
+          });
 
-    return {
-      success: true,
-      data: pokemon,
-    };
-  })
+          return {
+            success: true,
+            data: newPokemon,
+          };
+        },
+        {
+          body: t.Object({
+            name: t.String(),
+            type: t.String(),
+            description: t.String(),
+            level: t.Number(),
+          }),
+        }
+      )
 
-  .post(
-    "/",
-    async ({ body }): Promise<APIResponse<IPokemon>> => {
-      const { name, type, description, level } = body;
+      .put(
+        "/:id",
+        async ({ params: { id }, body }): Promise<APIResponse<IPokemon>> => {
+          if (!id) throw new Error("Id is required");
 
-      const newPokemon = await _pokemonServices.create({
-        name,
-        type,
-        description,
-        level,
-      });
+          const updatedPokemon = await _pokemonServices.update(id, body);
 
-      return {
-        success: true,
-        data: newPokemon,
-      };
-    },
-    {
-      body: t.Object({
-        name: t.String(),
-        type: t.String(),
-        description: t.String(),
-        level: t.Number(),
-      }),
-    }
-  )
+          return {
+            success: true,
+            data: updatedPokemon,
+          };
+        },
+        {
+          body: t.Object({
+            name: t.Optional(t.String()),
+            type: t.Optional(t.String()),
+            description: t.Optional(t.String()),
+            level: t.Optional(t.Number()),
+          }),
+        }
+      )
 
-  .put(
-    "/:id",
-    async ({ params: { id }, body }): Promise<APIResponse<IPokemon>> => {
-      if (!id) throw new Error("Id is required");
+      .delete(
+        "/:id",
+        async ({ params: { id } }): Promise<APIResponse<IPokemon>> => {
+          const deletedPokemon = await _pokemonServices.delete(id);
 
-      const updatedPokemon = await _pokemonServices.update(id, body);
-
-      return {
-        success: true,
-        data: updatedPokemon,
-      };
-    },
-    {
-      body: t.Object({
-        name: t.Optional(t.String()),
-        type: t.Optional(t.String()),
-        description: t.Optional(t.String()),
-        level: t.Optional(t.Number()),
-      }),
-    }
-  )
-
-  .delete(
-    "/:id",
-    async ({ params: { id } }): Promise<APIResponse<IPokemon>> => {
-      const deletedPokemon = await _pokemonServices.delete(id);
-
-      return {
-        success: true,
-        data: deletedPokemon,
-      };
-    }
-  );
+          return {
+            success: true,
+            data: deletedPokemon,
+          };
+        }
+      )
+);

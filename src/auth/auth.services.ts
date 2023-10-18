@@ -50,16 +50,9 @@ export class AuthServices {
     return newUser;
   }
 
-  //async generateAccessToken(user: IUser): Promise<string> {
-  // return this._accessTokenService.sign(
-  //   {
-  //     user: user.id,
-  //   },
-  //   {
-  //     subject: user.id,
-  //   }
-  // );
-  //}
+  // async generateAccessToken(user: IUser) {
+
+  // }
 
   // async generateRefreshToken(user: IUser): Promise<string> {
   //   return this._refreshTokenService.sign(
