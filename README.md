@@ -26,14 +26,22 @@ guard qui d'ailleurs fonctionnait très bien mercredi, on avait passé du temps 
 anyway
 
 la création de compte fonctionne, la connexion fonctionne, la génération du token fonctionne, mais la vérification du token ne fonctionne pas, donc la protection des routes ne fonctionne pas.
-j'ai laissé le guards, mais le CRUD pokemon fonctionne aussi, donc tu peux tester les routes sans soucis en supprimant le guards et en le remplacant par une fcontione vide par exemple
+j'ai laissé le guard, mais le CRUD pokemon fonctionne aussi, donc tu peux tester les routes sans soucis en supprimant le guards et en le remplacant par une fonction vide par exemple
 
 pour tester l'auth
 
 Register: @POST - /auth/register
-DTO: { "username": "test", "email": "test@test.fr", "password": "test" }
+DTO:
+
+```
+{ "username": "test", "email": "test@test.fr", "password": "test" }
+```
 
 Login: @POST - /auth/login
-DTO: { "email": "test@test.fr", "password": "test" }
+DTO:
+
+```
+ { "email": "test@test.fr", "password": "test" }
+```
 
 Logout: @POST - /auth/logout
