@@ -1,4 +1,5 @@
 import Elysia, { t } from "elysia";
+
 import { isAuthenticated } from "@auth/guards/authenticated.guard";
 import { APIResponse } from "@typesDef/api";
 import { IPokemon } from "@typesDef/pokemon";

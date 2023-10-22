@@ -1,10 +1,11 @@
 import { Elysia, HTTPMethod } from "elysia";
 import { helmet } from "elysia-helmet";
+import cookie from "@elysiajs/cookie";
+import { cors } from "@elysiajs/cors";
+
 import { apiRoutes } from "@api/index";
 import { auth } from "@auth/auth.controller";
 import { jwtAccessSetup, jwtRefreshSetup } from "@auth/guards/setup.jwt";
-import cookie from "@elysiajs/cookie";
-import { cors } from "@elysiajs/cors";
 
 import "@config/database/mongodb.config";
 

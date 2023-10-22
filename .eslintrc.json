@@ -27,7 +27,10 @@
           ["^.+\\.?(css)$"],
 
           /* elysia imports */
-          ["^elysia", "^@?\\w"],
+          ["^elysia", "^@elysiajs"],
+
+          /* Absolute import */
+          ["^@?\\w"],
 
           /* Side effect imports */
           ["^(\\u0000|@?\\w)(/.*|$)"],
