@@ -17,9 +17,11 @@
 ## Explications
 
 Bon, j'ai eu ce bug dont j'ai parlé via le mail. La fonction .verify du plugin @elysia-jwt qui ne fonctionne pas et donc ce qui rend la protection des routes impossible. je tiens à préciser que lorsque je verifie le token sur jwt.io, il est valide, donc le problème ne vient pas de la génération du token.
-j'ai envoye des messages sur les discord de bun et d'elysia, de communauté français et anglaise de dev, et j'ai eu aucune réponse. (pour le moment)
-j'ai donc également ouvert une issue sur le plugin elysia-jwt, en attente d'un réponse (https://github.com/elysiajs/elysia-jwt/issues/15)
-j'ai passé mon dimanche a chercher une solution, sans succès.
+
+J'ai envoye des messages sur les discord de bun et d'elysia, de communauté française et anglaise de dev, et j'ai eu aucune réponse (pour le moment).
+J'ai donc également ouvert une issue sur le plugin elysia-jwt, en attente d'une réponse (https://github.com/elysiajs/elysia-jwt/issues/15)
+
+J'ai passé mon dimanche a chercher une solution, sans succès, je t'avoue je suis super deg.
 
 guard qui d'ailleurs fonctionnait très bien mercredi, on avait passé du temps et tu avais vu que le guards fonctionnait (j'espère que tu t'en souviens lol)
 
@@ -31,6 +33,7 @@ j'ai laissé le guard, mais le CRUD pokemon fonctionne aussi, donc tu peux teste
 pour tester l'auth
 
 Register: @POST - /auth/register
+
 DTO:
 
 ```
@@ -38,6 +41,7 @@ DTO:
 ```
 
 Login: @POST - /auth/login
+
 DTO:
 
 ```
