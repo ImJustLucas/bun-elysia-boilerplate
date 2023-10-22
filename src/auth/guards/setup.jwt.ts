@@ -43,3 +43,5 @@ export const jwtRefreshSetup = new Elysia({
     exp: 30 * 24 * 60 * 60,
   })
 );
+
+export type jwtAccessSetupType = typeof jwtAccessSetup;

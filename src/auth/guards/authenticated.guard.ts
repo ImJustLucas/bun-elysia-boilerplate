@@ -1,7 +1,9 @@
+import Elysia from "elysia";
+import type { Elysia as ElysiaType } from "elysia";
 import { UserServices, UserServicesType } from "@api/users/users.services";
 import { APIResponse } from "@typesDef/api";
+
 import { IUser } from "@typesDef/globals";
-import Elysia, { t, Context } from "elysia";
 
 const _userServices: UserServicesType = new UserServices();
 
@@ -12,6 +14,7 @@ export const isAuthenticated = async (
   console.log("/!\\ AUTHENTICATED GUARD /!\\");
 
   if (!cookie!.access_token) {
+    console.log("@Error: No access token", cookie);
     set.status = 401;
     return {
       success: false,
@@ -21,8 +24,8 @@ export const isAuthenticated = async (
   }
 
   const jwt = await jwtAccess.verify(cookie!.access_token);
-  console.log("haha", jwt);
   if (!jwt) {
+    console.log("@Error: Invalid access token", jwt);
     set.status = 401;
     return {
       success: false,
@@ -32,8 +35,8 @@ export const isAuthenticated = async (
   }
 
   const { userId } = jwt;
-
   if (!userId) {
+    console.log("@Error: Invalid access token", userId);
     set.status = 401;
     return {
       success: false,
@@ -41,10 +44,10 @@ export const isAuthenticated = async (
       errors: "Invalid access token",
     };
   }
-  console.log("hihi");
   const user = await _userServices.findById(userId);
 
   if (!user) {
+    console.log("@Error: User not found", user);
     set.status = 401;
     return {
       success: false,

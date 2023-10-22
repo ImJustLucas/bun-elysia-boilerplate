@@ -10,12 +10,11 @@ const _pokemonServices: PokemonDocumentServices = new PokemonServices();
 
 export const PokemonController = new Elysia({ prefix: "/pokemon" }).guard(
   {
-    beforeHandle: [isAuthenticated],
+    beforeHandle: isAuthenticated,
   },
   (app) =>
     app
-      .decorate("getDate", () => Date.now())
-      .get("/", async ({ getDate }): Promise<APIResponse<IPokemon[]>> => {
+      .get("/", async (): Promise<APIResponse<IPokemon[]>> => {
         console.log("@GET /pokemon");
         const pokemons = await _pokemonServices.getAll();
 

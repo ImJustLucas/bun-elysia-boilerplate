@@ -1,6 +1,5 @@
 import { UserServices, UserServicesType } from "@api/users/users.services";
 import { IUser, SignUpUserDto, SignInUserDto } from "@typesDef/user";
-import bcrypt from "bcrypt";
 
 export class AuthServices {
   private _userService: UserServicesType;
@@ -10,7 +9,10 @@ export class AuthServices {
   }
 
   async hashPassword(password: string): Promise<string> {
-    return await bcrypt.hash(password, 12);
+    return await Bun.password.hash(password, {
+      algorithm: "bcrypt",
+      cost: 12, // number between 4-31
+    });
   }
 
   async validateUser(data: Readonly<SignInUserDto>): Promise<IUser> {

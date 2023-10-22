@@ -87,9 +87,11 @@ export const auth = createElysia({ prefix: "/auth" })
       };
     }
   )
-  .post("/logout", ({ removeCookie }): APIResponse => {
+  .post("/logout", ({ removeCookie, cookie }): APIResponse => {
     removeCookie("access_token");
     removeCookie("refresh_token");
+
+    console.log("COOKIE: ", cookie);
     return {
       success: true,
       data: null,

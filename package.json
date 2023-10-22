@@ -7,9 +7,11 @@
   },
   "dependencies": {
     "@elysiajs/cookie": "^0.7.0",
+    "@elysiajs/cors": "^0.7.1",
     "@elysiajs/jwt": "^0.7.0",
-    "bcrypt": "^5.1.1",
+    "colors": "^1.4.0",
     "elysia": "latest",
+    "elysia-helmet": "^1.0.1",
     "mongoose": "^7.6.2"
   },
   "devDependencies": {
