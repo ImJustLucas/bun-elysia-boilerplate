@@ -13,6 +13,8 @@
 ### Librairie tierces / non officielles
 
 - [x] `@Elysia/helmet` : Gestion de la sécurité de l'application en ajoutant des headers de sécurité
+- [x] `@ESlint` : Linter pour le code
+- [x] `@Prettier` : Formatter pour le code
 
 ## Explications
 
