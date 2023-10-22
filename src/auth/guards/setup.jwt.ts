@@ -1,5 +1,5 @@
-import { jwt } from "@elysiajs/jwt";
 import { Elysia, t } from "elysia";
+import { jwt } from "@elysiajs/jwt";
 
 export const CookieOptions = {
   accessToken: {
@@ -28,7 +28,7 @@ export const jwtAccessSetup = new Elysia({
     }),
     secret: process.env.JWT_ACCESS_SECRET || "DO NOT USE THIS SECRET KEY",
     exp: 30 * 24 * 60 * 60,
-  })
+  }),
 );
 
 export const jwtRefreshSetup = new Elysia({
@@ -41,7 +41,7 @@ export const jwtRefreshSetup = new Elysia({
     }),
     secret: process.env.JWT_REFRESH_SECRET || "DO NOT USE THIS SECRET KEY",
     exp: 30 * 24 * 60 * 60,
-  })
+  }),
 );
 
 export type jwtAccessSetupType = typeof jwtAccessSetup;

@@ -1,5 +1,5 @@
-export * from "./user";
 export * from "./pokemon";
+export * from "./user";
 
 export enum Currency {
   EUR,

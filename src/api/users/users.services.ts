@@ -1,8 +1,7 @@
 import { IUser, UserAccountStatusType } from "@typesDef/globals";
-import * as bcrypt from "bcrypt";
+import { Model } from "mongoose";
 
 import UserSchema, { UserDocument } from "./users.schema";
-import { Model } from "mongoose";
 
 type UsersSearchParams = {
   [key: string]: string | number | boolean;
@@ -43,7 +42,7 @@ export class UserServices {
   async create(
     username: string,
     email: string,
-    password: string
+    password: string,
   ): Promise<UserDocument> {
     const user: UserDocument = await this._userModel.create({
       username,
@@ -57,7 +56,7 @@ export class UserServices {
 
   async compareEncryptedPassword(
     userId: string,
-    password: string
+    password: string,
   ): Promise<boolean> {
     const user = await this._userModel.findById(userId);
     if (!user) throw new Error("User not found");

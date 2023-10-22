@@ -1,13 +1,12 @@
 import { Elysia, HTTPMethod } from "elysia";
-import { cors } from "@elysiajs/cors";
 import { helmet } from "elysia-helmet";
-
-import "@config/database/mongodb.config";
-
-import { auth } from "@auth/auth.controller";
 import { apiRoutes } from "@api/index";
+import { auth } from "@auth/auth.controller";
 import { jwtAccessSetup, jwtRefreshSetup } from "@auth/guards/setup.jwt";
 import cookie from "@elysiajs/cookie";
+import { cors } from "@elysiajs/cors";
+
+import "@config/database/mongodb.config";
 
 const api = new Elysia();
 
@@ -24,7 +23,7 @@ api.use(
     allowedHeaders: process.env.CORS_ALLOWED_HEADER || "*",
     // @ts-ignore
     methods: (process.env.CORS_ALLOWED_METHODS! as HTTPMethod) || "*",
-  })
+  }),
 );
 api.use(helmet());
 
@@ -36,5 +35,5 @@ api.get("/", () => "Welcome to Elysia!");
 api.listen(process.env.PORT || 8080);
 
 console.log(
-  `🦊 Elysia is running at ${api.server?.hostname}:${process.env.PORT || 8080}`
+  `🦊 Elysia is running at ${api.server?.hostname}:${process.env.PORT || 8080}`,
 );

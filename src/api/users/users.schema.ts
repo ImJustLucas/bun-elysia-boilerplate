@@ -4,7 +4,7 @@ import {
   UserAccountStatusType,
   UserRole,
 } from "@typesDef/globals";
-import { HydratedDocument, Schema, model } from "mongoose";
+import { HydratedDocument, model, Schema } from "mongoose";
 
 const SALT_ROUNDS = 12;
 
@@ -50,7 +50,7 @@ const UserIdentitySchema = new Schema(
   },
   {
     _id: false,
-  }
+  },
 );
 
 const UserPreferencesSchema = new Schema(
@@ -91,7 +91,7 @@ const UserPreferencesSchema = new Schema(
   },
   {
     _id: false,
-  }
+  },
 );
 
 const UserAccountStatusSchema = new Schema(
@@ -112,7 +112,7 @@ const UserAccountStatusSchema = new Schema(
   },
   {
     _id: false,
-  }
+  },
 );
 
 const UserSchema = new Schema<UserDocument>(
@@ -140,7 +140,7 @@ const UserSchema = new Schema<UserDocument>(
     role: {
       type: Number,
       enum: Object.values(UserRole).filter(
-        (value) => typeof value === "number"
+        (value) => typeof value === "number",
       ),
       default: UserRole.USER,
     },
@@ -165,7 +165,7 @@ const UserSchema = new Schema<UserDocument>(
         return await Bun.password.verify(password, this.password);
       },
     },
-  }
+  },
 );
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -177,7 +177,7 @@ function transformValue(_: unknown, ret: { [key: string]: any }) {
 UserSchema.pre("save", async function (next) {
   if (this.isModified("password")) {
     this.password = await (this as UserDocument).getEncryptedPassword(
-      this.password
+      this.password,
     );
   }
 

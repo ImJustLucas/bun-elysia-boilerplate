@@ -1,5 +1,5 @@
 import { UserServices, UserServicesType } from "@api/users/users.services";
-import { IUser, SignUpUserDto, SignInUserDto } from "@typesDef/user";
+import { IUser, SignInUserDto, SignUpUserDto } from "@typesDef/user";
 
 export class AuthServices {
   private _userService: UserServicesType;
@@ -46,7 +46,7 @@ export class AuthServices {
     const newUser: IUser = await this._userService.create(
       username,
       email,
-      password
+      password,
     );
 
     return newUser;

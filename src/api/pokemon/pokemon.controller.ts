@@ -1,10 +1,9 @@
 import Elysia, { t } from "elysia";
-
-import { IPokemon } from "@typesDef/pokemon";
+import { isAuthenticated } from "@auth/guards/authenticated.guard";
 import { APIResponse } from "@typesDef/api";
+import { IPokemon } from "@typesDef/pokemon";
 
 import { PokemonDocumentServices, PokemonServices } from "./pokemon.services";
-import { isAuthenticated } from "@auth/guards/authenticated.guard";
 
 const _pokemonServices: PokemonDocumentServices = new PokemonServices();
 
@@ -48,7 +47,7 @@ export const PokemonController = new Elysia({ prefix: "/pokemon" }).guard(
             description: t.String(),
             level: t.Number(),
           }),
-        }
+        },
       )
 
       .put(
@@ -70,7 +69,7 @@ export const PokemonController = new Elysia({ prefix: "/pokemon" }).guard(
             description: t.Optional(t.String()),
             level: t.Optional(t.Number()),
           }),
-        }
+        },
       )
 
       .delete(
@@ -82,6 +81,6 @@ export const PokemonController = new Elysia({ prefix: "/pokemon" }).guard(
             success: true,
             data: deletedPokemon,
           };
-        }
-      )
+        },
+      ),
 );

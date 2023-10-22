@@ -1,15 +1,14 @@
 import { cookie } from "@elysiajs/cookie";
-
-import { IUser, SignUpUserDto, SignInUserDto } from "@typesDef/user";
-import { createElysia } from "@utils/createElysia";
 import { APIResponse } from "@typesDef/api";
+import { IUser, SignInUserDto, SignUpUserDto } from "@typesDef/user";
+import { createElysia } from "@utils/createElysia";
 
-import { AuthServices, AuthServicesType } from "./auth.services";
 import {
   CookieOptions,
   jwtAccessSetup,
   jwtRefreshSetup,
 } from "./guards/setup.jwt";
+import { AuthServices, AuthServicesType } from "./auth.services";
 
 const _authService: AuthServicesType = new AuthServices();
 
@@ -28,7 +27,7 @@ export const auth = createElysia({ prefix: "/auth" })
       setCookie,
     }): Promise<APIResponse<IUser>> => {
       const user: IUser = await _authService.validateUser(
-        data as SignInUserDto
+        data as SignInUserDto,
       );
 
       setCookie(
@@ -36,14 +35,14 @@ export const auth = createElysia({ prefix: "/auth" })
         await jwtAccess.sign({
           userId: user._id,
         }), // @ts-ignore
-        CookieOptions.accessToken
+        CookieOptions.accessToken,
       );
       setCookie(
         "refresh_token",
         await jwtRefresh.sign({
           userId: user._id,
         }), // @ts-ignore
-        CookieOptions.refreshToken
+        CookieOptions.refreshToken,
       );
 
       console.log("COOKIE: ", cookie);
@@ -52,7 +51,7 @@ export const auth = createElysia({ prefix: "/auth" })
         success: true,
         data: user,
       };
-    }
+    },
   )
   .post(
     "/register",
@@ -71,21 +70,21 @@ export const auth = createElysia({ prefix: "/auth" })
         await jwtAccess.sign({
           userId: user._id,
         }), // @ts-ignore
-        CookieOptions.accessToken
+        CookieOptions.accessToken,
       );
       setCookie(
         "refresh_token",
         await jwtRefresh.sign({
           userId: user._id,
         }), // @ts-ignore
-        CookieOptions.refreshToken
+        CookieOptions.refreshToken,
       );
 
       return {
         success: true,
         data: user,
       };
-    }
+    },
   )
   .post("/logout", ({ removeCookie, cookie }): APIResponse => {
     removeCookie("access_token");

@@ -1,6 +1,5 @@
 import { IPokemon } from "@typesDef/pokemon";
-
-import { Document, Schema, model } from "mongoose";
+import { Document, model, Schema } from "mongoose";
 
 export type PokemonDocument = IPokemon & Document;
 
@@ -33,7 +32,7 @@ const schema = new Schema<PokemonDocument>(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 schema.pre("save", function (next) {

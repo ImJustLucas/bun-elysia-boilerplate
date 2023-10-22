@@ -1,14 +1,13 @@
 import Elysia from "elysia";
-import type { Elysia as ElysiaType } from "elysia";
 import { UserServices, UserServicesType } from "@api/users/users.services";
 import { APIResponse } from "@typesDef/api";
-
 import { IUser } from "@typesDef/globals";
 
 const _userServices: UserServicesType = new UserServices();
 
 export const isAuthenticated = async (
-  Context: any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  Context: any,
 ): Promise<APIResponse<IUser>> => {
   const { set, jwtAccess, cookie } = Context;
   console.log("/!\\ AUTHENTICATED GUARD /!\\");

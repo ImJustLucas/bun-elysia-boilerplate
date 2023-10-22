@@ -1,7 +1,7 @@
-import { Model } from "mongoose";
-import Pokemon, { PokemonDocument } from "./pokemon.schema";
-
 import { PokemonDTO } from "@typesDef/pokemon";
+import { Model } from "mongoose";
+
+import Pokemon, { PokemonDocument } from "./pokemon.schema";
 
 export class PokemonServices {
   private readonly _pokemonSchema: Model<PokemonDocument>;
@@ -39,7 +39,7 @@ export class PokemonServices {
 
   async update(
     id: string,
-    data: Partial<PokemonDTO>
+    data: Partial<PokemonDTO>,
   ): Promise<PokemonDocument> {
     console.log("@PUT: /pokemon");
 
@@ -49,10 +49,10 @@ export class PokemonServices {
 
     console.log("updatePokemon", updatePokemon);
 
-    !!data.name ? (updatePokemon.name = data.name) : null;
-    !!data.type ? (updatePokemon.type = data.type) : null;
-    !!data.description ? (updatePokemon.description = data.description) : null;
-    !!data.level ? (updatePokemon.level = data.level) : null;
+    data.name ? (updatePokemon.name = data.name) : null;
+    data.type ? (updatePokemon.type = data.type) : null;
+    data.description ? (updatePokemon.description = data.description) : null;
+    data.level ? (updatePokemon.level = data.level) : null;
 
     const returnedPokemon = await updatePokemon.save();
 

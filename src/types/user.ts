@@ -1,4 +1,4 @@
-import { Language, Currency } from "./globals";
+import { Currency, Language } from "./globals";
 
 export interface IUser {
   _id: string;
