@@ -49,10 +49,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 Contributions are welcome! Please feel free to open an issue or submit a pull request.
 
-## 📣 Feedback
-
-If you have any feedback or questions, please don't hesitate to [contact us](mailto:example@example.com).
-
 ## 🌟 Acknowledgements
 
 Special thanks to the Bun.js and Elysia communities for their support and contributions.
