@@ -1,53 +1,60 @@
-# Elysia with Bun runtime
+# 🚀 Bun Elysia Boilerplate
 
-## Listes des features
+Welcome to Bun Elysia Boilerplate! This is a starter template for building web applications using Bun.js and the Elysia framework.
 
-### Natif / Sans librairie / Principes
+## 📦 Installation
 
-### Librairie @Elysia
+To get started with this boilerplate, simply clone the repository:
 
-- [x] `@Elysia/cookie` : Gestion des cookies afin de pouvoir les manipuler facilement et de gerer l'authentification plus facilement
-- [x] `@Elysia/jwt` : Gestion des JWT afin de pouvoir les manipuler facilement et de gérer l'authentification plus facilement
-- [x] `@Elysia/cors` : Gestion des CORS pour sécuriser les requêtes
-
-### Librairie tierces / non officielles
-
-- [x] `@Elysia/helmet` : Gestion de la sécurité de l'application en ajoutant des headers de sécurité
-- [x] `@ESlint` : Linter pour le code
-- [x] `@Prettier` : Formatter pour le code
-
-## Explications
-
-Bon, j'ai eu ce bug dont j'ai parlé via le mail. La fonction .verify du plugin @elysia-jwt qui ne fonctionne pas et donc ce qui rend la protection des routes impossible. je tiens à préciser que lorsque je verifie le token sur jwt.io, il est valide, donc le problème ne vient pas de la génération du token.
-
-J'ai envoye des messages sur les discord de bun et d'elysia, de communauté française et anglaise de dev, et j'ai eu aucune réponse (pour le moment).
-J'ai donc également ouvert une issue sur le plugin elysia-jwt, en attente d'une réponse (https://github.com/elysiajs/elysia-jwt/issues/15)
-
-J'ai passé mon dimanche a chercher une solution, sans succès, je t'avoue je suis super deg.
-
-guard qui d'ailleurs fonctionnait très bien mercredi, on avait passé du temps et tu avais vu que le guards fonctionnait (j'espère que tu t'en souviens lol)
-
-anyway
-
-la création de compte fonctionne, la connexion fonctionne, la génération du token fonctionne, mais la vérification du token ne fonctionne pas, donc la protection des routes ne fonctionne pas.
-j'ai laissé le guard, mais le CRUD pokemon fonctionne aussi, donc tu peux tester les routes sans soucis en supprimant le guards et en le remplacant par une fonction vide par exemple
-
-pour tester l'auth
-
-Register: @POST - /auth/register
-
-DTO:
-
-```
-{ "username": "test", "email": "test@test.fr", "password": "test" }
+```bash
+git clone <repository_url>
 ```
 
-Login: @POST - /auth/login
+Then, install the dependencies:
 
-DTO:
-
-```
- { "email": "test@test.fr", "password": "test" }
+```bash
+bun install
 ```
 
-Logout: @POST - /auth/logout
+## 🛠 Usage
+
+### Development
+
+To run the application in development mode with automatic reload:
+
+```bash
+bun dev
+```
+
+## ⚙️ Configuration
+
+The boilerplate comes with some default configurations, including:
+
+- **Elysia Modules**: Integrated modules like `@elysiajs/cookie`, `@elysiajs/cors`, and `@elysiajs/jwt`.
+- **Middleware**: Middleware for enhanced security with `elysia-helmet`, and a custom JWT verification middleware.
+- **Database Integration**: MongoDB integration with `mongoose`.
+- **TypeScript Support**: Full support for TypeScript with type definitions.
+- **API as Modules**: Modularized API design for better organization and scalability.
+- **Linting**: ESLint and Prettier configurations for code quality.
+
+## 🙏 Acknowledgements
+
+Thank to @Rock288[https://github.com/rock288], for the help i needed to fix the boilerplate.
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to open an issue or submit a pull request.
+
+## 📣 Feedback
+
+If you have any feedback or questions, please don't hesitate to [contact us](mailto:example@example.com).
+
+## 🌟 Acknowledgements
+
+Special thanks to the Bun.js and Elysia communities for their support and contributions.
+
+Happy coding! 🎉
