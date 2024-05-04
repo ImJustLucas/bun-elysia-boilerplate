@@ -1,5 +1,10 @@
 {
-  "name": "hi-elysia",
+  "name": "bun-elysia-boilerplate-by-imjustlucas",
+  "description": "A boilerplate for ElysiaJS with Bun made by imjustlucas",
+  "main": "src/index.ts",
+  "author": {
+    "name": "Lucas"
+  },
   "version": "1.0.50",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
