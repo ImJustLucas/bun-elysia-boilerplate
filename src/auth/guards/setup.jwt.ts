@@ -1,7 +1,9 @@
 import { Elysia, t } from "elysia";
 import { jwt } from "@elysiajs/jwt";
 
-export const CookieOptions = {
+import { ICookiesOptions } from "@typesDef/api";
+
+export const CookieOptions: ICookiesOptions = {
   accessToken: {
     httpOnly: true,
     secure: true,
@@ -26,8 +28,8 @@ export const jwtAccessSetup = new Elysia({
     schema: t.Object({
       userId: t.String(),
     }),
-    secret: process.env.JWT_ACCESS_SECRET || "DO NOT USE THIS SECRET KEY",
-    exp: 30 * 24 * 60 * 60,
+    secret: process.env.JWT_ACCESS_SECRET ?? "DO NOT USE THIS SECRET KEY",
+    exp: 30 * 24 * 60 * 60 + Date.now(),
   }),
 );
 
@@ -39,8 +41,8 @@ export const jwtRefreshSetup = new Elysia({
     schema: t.Object({
       userId: t.String(),
     }),
-    secret: process.env.JWT_REFRESH_SECRET || "DO NOT USE THIS SECRET KEY",
-    exp: 30 * 24 * 60 * 60,
+    secret: process.env.JWT_REFRESH_SECRET ?? "DO NOT USE THIS SECRET KEY",
+    exp: 30 * 24 * 60 * 60 + Date.now(),
   }),
 );
 
