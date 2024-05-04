@@ -1,16 +1,28 @@
-import Elysia, { t } from "elysia";
+import { t } from "elysia";
 
 import { isAuthenticated } from "@auth/guards/authenticated.guard";
 import { APIResponse } from "@typesDef/api";
 import { IPokemon } from "@typesDef/pokemon";
+import { createElysia } from "@utils/createElysia";
 
 import { PokemonDocumentServices, PokemonServices } from "./pokemon.services";
 
 const _pokemonServices: PokemonDocumentServices = new PokemonServices();
 
-export const PokemonController = new Elysia({ prefix: "/pokemon" }).guard(
+export const PokemonController = createElysia({ prefix: "/pokemon" }).guard(
   {
-    beforeHandle: isAuthenticated,
+    async beforeHandle({ set, jwtAccess, cookie }) {
+      const isAuth = await isAuthenticated(jwtAccess, cookie);
+
+      if (!isAuth.success) {
+        set.status = 401;
+        return {
+          success: false,
+          message: isAuth.message,
+          errors: isAuth.errors,
+        };
+      }
+    },
   },
   (app) =>
     app

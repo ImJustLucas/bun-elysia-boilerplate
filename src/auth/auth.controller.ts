@@ -1,5 +1,3 @@
-import { cookie } from "@elysiajs/cookie";
-
 import { APIResponse } from "@typesDef/api";
 import { IUser, SignInUserDto, SignUpUserDto } from "@typesDef/user";
 import { createElysia } from "@utils/createElysia";
@@ -16,7 +14,6 @@ const _authService: AuthServicesType = new AuthServices();
 export const auth = createElysia({ prefix: "/auth" })
   .use(jwtAccessSetup)
   .use(jwtRefreshSetup)
-  .use(cookie())
   .get("/", () => "This is the auth module!")
   .post(
     "/login",
@@ -25,28 +22,24 @@ export const auth = createElysia({ prefix: "/auth" })
       jwtAccess,
       jwtRefresh,
       cookie,
-      setCookie,
     }): Promise<APIResponse<IUser>> => {
       const user: IUser = await _authService.validateUser(
         data as SignInUserDto,
       );
 
-      setCookie(
-        "access_token",
-        await jwtAccess.sign({
+      cookie.access_token.set({
+        value: await jwtAccess.sign({
           userId: user._id,
-        }), // @ts-ignore
-        CookieOptions.accessToken,
-      );
-      setCookie(
-        "refresh_token",
-        await jwtRefresh.sign({
-          userId: user._id,
-        }), // @ts-ignore
-        CookieOptions.refreshToken,
-      );
+        }),
+        ...CookieOptions.accessToken,
+      });
 
-      console.log("COOKIE: ", cookie);
+      cookie.refresh_token.set({
+        value: await jwtRefresh.sign({
+          userId: user._id,
+        }),
+        ...CookieOptions.refreshToken,
+      });
 
       return {
         success: true,
@@ -60,26 +53,25 @@ export const auth = createElysia({ prefix: "/auth" })
       body,
       jwtAccess,
       jwtRefresh,
-      setCookie,
+      cookie,
     }): Promise<APIResponse<IUser>> => {
       if (!body) throw new Error("Data is required");
 
       const user: IUser = await _authService.register(body as SignUpUserDto);
 
-      setCookie(
-        "access_token",
-        await jwtAccess.sign({
+      cookie.access_token.set({
+        value: await jwtAccess.sign({
           userId: user._id,
-        }), // @ts-ignore
-        CookieOptions.accessToken,
-      );
-      setCookie(
-        "refresh_token",
-        await jwtRefresh.sign({
+        }),
+        ...CookieOptions.accessToken,
+      });
+
+      cookie.refresh_token.set({
+        value: await jwtRefresh.sign({
           userId: user._id,
-        }), // @ts-ignore
-        CookieOptions.refreshToken,
-      );
+        }),
+        ...CookieOptions.refreshToken,
+      });
 
       return {
         success: true,
@@ -87,9 +79,9 @@ export const auth = createElysia({ prefix: "/auth" })
       };
     },
   )
-  .post("/logout", ({ removeCookie, cookie }): APIResponse => {
-    removeCookie("access_token");
-    removeCookie("refresh_token");
+  .post("/logout", ({ cookie }): APIResponse => {
+    delete cookie.access_token;
+    delete cookie.refresh_token;
 
     console.log("COOKIE: ", cookie);
     return {
