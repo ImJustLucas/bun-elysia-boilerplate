@@ -39,7 +39,7 @@ The boilerplate comes with some default configurations, including:
 
 ## 🙏 Acknowledgements
 
-Thank to @Rock288[https://github.com/rock288], for the help i needed to fix the boilerplate.
+Thank to [@Rock288](https://github.com/rock288), for the help i needed to fix the boilerplate.
 
 ## 📄 License
 
